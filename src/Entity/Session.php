@@ -23,7 +23,7 @@ class Session
         $this->setDate($date);
         $this->setFormation($formation);
         $this->setTeacher($teacher);
-        $this->setClassroom($teacher);
+        $this->setClassroom($classroom);
     }
 
     /**
@@ -81,11 +81,7 @@ class Session
      */
     public function setTeacher($teacher)
     {
-        if ($teacher->isTeacher()) {
-            $this->teacher = $teacher;
-        } else {
-            $this->teacher = null;
-        }
+        $this->teacher = $teacher;
 
         return $this;
     }
@@ -159,7 +155,7 @@ class Session
     public function isValid()
     {
         return $this->getCountStudents() >= self::MIN_VALID_STUDENT_NUMBER &&
-            !is_null($this->getTeacher()) &&
+            !is_null($this->getTeacher()) && $this->getTeacher()->getType() == User::TYPE_FORMATEUR &&
             is_a($this->getDate(), 'DateTime') &&
             !is_null($this->getClassroom());
     }
